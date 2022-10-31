@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "servitorfinderproviderapp",
+    "slug": "servitorfinderproviderapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/images/logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/assets/images/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "packagerOpts": {
+      "sourceExts": [
+        "cjs"
+      ]
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "usesIcloudStorage": true,
+    "bundleIdentifier": "com.servitorfinderproviderapp.servitorfinderproviderapp"
+    },
+    "plugins": ["expo-document-picker"],
+    "android": {
+      "config": {"googleMaps": { "apiKey": "AIzaSyCzUsXvK6ij9EhZIjtFO_0eBJQ8h_7GSXA" }},
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.servitorfinderproviderapp.servitorfinderproviderapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a78408eb-5814-40d0-9764-abe64eba0d00"
+      }
+    }
+  }
+}

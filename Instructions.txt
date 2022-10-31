@@ -1,0 +1,52 @@
+<----Note---->
+NB. ignore the bottom navigation bar, do not hard code every card on the design, rather make it  single component and 
+use it multible times. eg. on Home screen there are multiple cards used to display multiple users code only one card and use it 
+multiple times to save time. Ignore the Report and Logout, or Logout that is displayed on the screens it will be a popup.
+Return a SafeAreaView on each screen. Do not put the header inside a scrollView. 
+Most of the packages are installed check inside package.json
+example: 
+    <SafeAreaView> //Do it like this
+        <Header />
+        <scrollView>
+        </scrollView>
+    </SafeAreaView>
+
+
+<--------Width------->
+
+width is 93% of the screen for the view
+use "useWindowDimensions", which is imported from "react-native", for the app to be responsive
+examples:
+"const {width, height} = useWindowDimensions();" add this line under the ur function just like in Header.js
+How to use: {marginHorizontal: width* 0.03,width: width* 0.93} inside inline style
+93% of the width of the screen = width* 0.93 Or use Width: '93%',
+
+
+<----For icons use:----->
+
+import { Icon } from "react-native-gradient-icon";
+<Icon  size={32} //the size must always be 32
+        colors={[
+            {color:"#B615DE",offset:"0",opacity:"1"}, //don`t change the colors
+            {color:"#D428A8",offset:"1",opacity:"1"},
+        ]}
+        name="md-arrow-back" //replace this with the ionicon icon name u want to use
+        type="ionicon" 
+/>
+
+
+<----components----->
+
+The header component is created and it takes a boolean prop "withBackIcon" which must be false if the back icon must not be displayed,
+true if the back icon must be displayed.
+
+A CustomeBtn component is created which will be used as our default button on multiple screens, the component takes "text and onPress" props,
+ "text" prop is the text that will be written on the button eg. SignUp button will receive a prop of text='SignUp'.
+
+ InputText height is {height: height*0.06}
+
+
+For more info u know where to find me...
+
+
+And don`t forget to move the boards on trello so that we can track our progress.
