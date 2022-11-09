@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, StatusBar, Dimensions, ScrollView, KeyboardAvoidingView, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, StatusBar, Dimensions, ScrollView, KeyboardAvoidingView, Pressable, ActivityIndicator } from "react-native";
 import icon from '../assets/images/logo.png';
 import { useState } from "react";
 import CustomeBtn from "../components/CustomeBtn";
@@ -20,6 +20,7 @@ export default function RegisterService({navigation,route}) {
     const [serviceType, setServiceType] = useState('');
     const [companyName,setCompanyName] = useState('');
     const [regNo,setRegNo] = useState('');
+    const [isLoading,setIsLoading] = useState(false);
   
     // console.log(files[0]._data.name);
     const {userId} = route.params;
@@ -38,7 +39,8 @@ export default function RegisterService({navigation,route}) {
                                 address: address,
                                 idNo: idNo,
                         }).then(()=>{
-        
+                            setIsLoading(false);
+                            navigation.navigate('SignIn');
                         })
                         }else alert('input the required data')
                         
@@ -51,7 +53,8 @@ export default function RegisterService({navigation,route}) {
                                 companyName: companyName,
         
                         }).then(()=>{
-                            
+                            setIsLoading(false);
+                            navigation.navigate('SignIn');
                         })
                     }else alert('input the required data')
                    
@@ -60,11 +63,13 @@ export default function RegisterService({navigation,route}) {
             })
         }catch(e){
             alert(e.message);
+            setIsLoading(false);
         }
        
     }
 
     async function uploadDocs(){
+        setIsLoading(true);
         if(!files) return;
         console.log(files.length);
         if(index===0&&files.length<4){
@@ -145,6 +150,7 @@ export default function RegisterService({navigation,route}) {
                         <View style={{alignSelf: 'center',}}>
                             <CustomeBtn onPress={uploadDocs} text='Upload' />
                         </View>
+                        {isLoading&&<ActivityIndicator size="large" color="#D428A8" />}
                         <View style={{marginTop: Dimensions.get('window').height*0.04,}} />
             </View>
             </KeyboardAvoidingView>

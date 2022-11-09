@@ -1,37 +1,60 @@
+import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import React from 'react';
 import {StyleSheet, View, Text,ScrollView, Dimensions, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import PopUp from '../components/PopUp';
+import { auth, firestore } from '../config/firebase';
 
 export default function Notifications({navigation}) {
   const [isOpen,setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [searchItem,setSearchItem] = React.useState('');
+const [requests, setRequests] = React.useState([]);
+const [allData,setAllData] = React.useState([]);
 
-    const notification = [
-        {
-          id: '1',
-          userName: 'Matthews 1',
-          title: 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet, Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet, Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet', 
-        },
-        {
-          id: '2',
-          userName: 'Matthews 2',
-          title: 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet, Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet, Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet', 
-        },
-        {
-          id: '3',
-          userName: 'Matthews 3',
-          title: 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet, Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet, Lorem ipsum dolor sit amet consectetur adipiscing elit. Vel imperdiet', 
-          
-        },
-      ];
+  let userId = auth.currentUser.uid;
+
+async function getRequests() {
+  setIsLoading(true)
+    const collectionRef = collection(firestore, 'Request Form');
+    
+    try {
+      let ourQuery = query(collectionRef,where('servitorId','==',userId));
+      const servitorRef = collection(firestore, 'users')
+      onSnapshot(ourQuery, (snapshot) => {
+        let tempData = [];
+        snapshot.docs.forEach(async (doc) => {
+          let servitorQuery = query(servitorRef, where('userId', '==', doc.data().userId));
+          await getDocs(servitorQuery).then((snapshot) => {
+            snapshot.docs.forEach((servitor) => {
+              tempData.push({ ...servitor.data(), ...doc.data(),docId: doc.id });
+            });
+            setIsLoading(false);
+            setAllData(tempData);
+            setRequests(tempData.filter(data => data.reqStatus !== 'Declined'));
+          });
+        });
+      })
+        
+      setIsLoading(false);
+    }catch(e){
+        console.log(e.message);
+        setIsLoading(false);
+    }
+}
+  React.useEffect(()=>{
+    getRequests();
+},[])
+
+ 
 
       const notify = () => {
-        return notification.map((results,index) => {
+        return requests.map((results,index) => {
           return (
              <View key={index} style={{...styles.notifycard}}>
-              <Text style={styles.text}>{results.userName}</Text>
-              <Text style={{color:'#fefefe'}}>{results.title}</Text>
+              <Text style={styles.text}>{results.firstName}</Text>
+              <Text style={{color:'#fefefe'}}>{results.description}</Text>
             </View>
           );
         });

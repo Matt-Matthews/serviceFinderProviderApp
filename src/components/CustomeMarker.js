@@ -14,7 +14,7 @@ export default function CustomeMarker({isOnline, data}) {
       </View>
       <View style={styles.textContainter}>
         <Text style={styles.heading}>{data.firstName}</Text>
-        <Text style={styles.text}>{data.serviceType}</Text>
+        <Text style={styles.text}>Customer</Text>
         <Ratings ratings={data.ratings} />
       </View>
       
